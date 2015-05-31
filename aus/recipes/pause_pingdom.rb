@@ -109,7 +109,7 @@ ruby_block "pause_pingdom" do
     host=`hostname -s`.strip
     count = list.count - 1
     match = 0
-    region=`curl -s 169.254.169.254/latest/meta-data/placement/availability-zone`
+    region=node[:opsworks][:instance][:region]
     region.chop!
     (0..count).each do |x|
       if list[x][0] != nil && list[x][0].include?(host) && list[x][0].include?(region) then
