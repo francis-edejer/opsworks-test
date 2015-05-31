@@ -1,13 +1,12 @@
 #!/usr/bin/env ruby
 
 require 'net/https'
-require 'pp'
 require 'json'
 
-PINGDOM_API_URL = 'https://api.pingdom.com'
-PINGDOM_API_KEY = '9ps0iu3xy998wb2cj6x7ytwmhjgtv0s0'
-PINGDOM_API_USERNAME = 'jd@binaries.sg'
-PINGDOM_API_PASSWORD = '13f1a011a8770679'
+   PINGDOM_API_URL = 'https://api.pingdom.com'
+   PINGDOM_API_KEY = '1ihtcw3cxpue8y9ao1n3fsagi3tmkc4q'
+   PINGDOM_API_USERNAME = 'francis@pocketmath.com'
+   PINGDOM_API_PASSWORD = 'pmqrwe1423'
 
 def get_pingdom(append_url)
   begin
