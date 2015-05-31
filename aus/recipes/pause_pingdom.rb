@@ -106,7 +106,7 @@ ruby_block "pause_pingdom" do
     end
 
     list=list_all_checks_status()
-    host=`hostname -s`.strip
+    host=node[:opsworks][:instance][:hostname]
     count = list.count - 1
     match = 0
     region=node[:opsworks][:instance][:region]
