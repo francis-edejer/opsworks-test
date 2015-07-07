@@ -115,15 +115,15 @@ ruby_block "pause_pingdom" do
       if list[x][0] != nil && list[x][0].include?(host) && list[x][0].include?(region) then
         match += 1
         if list[x][2] == "paused"
-          puts "Pingdom check already paused!"
+          Chef::Log.warn("Pingdom check already paused")
         else
           update=update_status(list[x][1],'pause')
-          Chef::Log.warn("Successfully paused pingdom check: #{update}")
+          Chef::Log.info("PINGDOM UPDATE RESULT: #{update}")
         end
       end
     end
     if match == 0
-     puts "Instance hostname can't be found in pingdom check list"
+     Chef::Log.warn("Instance hostname can't be found in pingdom check list")
     end
     
   end
