@@ -118,7 +118,7 @@ ruby_block "pause_pingdom" do
           puts "Pingdom check already paused!"
         else
           update=update_status(list[x][1],'pause')
-          Chef::Log.info("Successfully paused pingdom check: #{update}")
+          Chef::Log.warn("Successfully paused pingdom check: #{update}")
         end
       end
     end
