@@ -115,12 +115,12 @@ region.chop!
     match += 1
     if list[x][2] == "paused"
       update=update_status(list[x][1],'unpause')
-      puts update
+      Chef::Log.info("PINGDOM UPDATE RESULT: #{update}")
     else
-      puts "Pingdom check already running"
+      Chef::Log.warn("Pingdom check already running")
     end
   end
 end
 if match == 0
- puts "Instance hostname can't be found in pingdom check list"
+  Chef::Log.warn("Instance hostname can't be found in pingdom check list")
 end
