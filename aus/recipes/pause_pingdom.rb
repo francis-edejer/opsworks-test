@@ -130,6 +130,7 @@ ruby_block "pause_pingdom" do
       rescue
         p $?
       end
+    end  
     pause_pingdom()
   end
 end
