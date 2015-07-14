@@ -104,28 +104,33 @@ ruby_block "pause_pingdom" do
         p $!
       end
     end
-
-    list=list_all_checks_status()
-    host=node[:opsworks][:instance][:hostname]
-    count = list.count - 1
-    match = 0
-    region=node[:opsworks][:instance][:region]
-    region.chop!
-    (0..count).each do |x|
-      if list[x][0] != nil && list[x][0].include?(host) && list[x][0].include?(region) then
-        match += 1
-        if list[x][2] == "paused"
-          Chef::Log.warn("Pingdom check already paused")
-        else
+    
+    def pause_pingdom()
+      begin
+        list=list_all_checks_status()
+        host=node[:opsworks][:instance][:hostname]
+        count = list.count - 1
+        match = 0
+        region=node[:opsworks][:instance][:region]
+        region.chop!
+        (0..count).each do |x|
+          if list[x][0] != nil && list[x][0].include?(host) && list[x][0].include?(region) then
+          match += 1
+            if list[x][2] == "paused"
+              Chef::Log.warn("Pingdom check already paused")
+            else
           update=update_status(list[x][1],'pause')
           Chef::Log.info("PINGDOM UPDATE RESULT: #{update}")
+            end
+          end
         end
+        if match == 0
+          Chef::Log.warn("Instance hostname can't be found in pingdom check list")
+        end
+      rescue
+        p $?
       end
-    end
-    if match == 0
-     Chef::Log.warn("Instance hostname can't be found in pingdom check list")
-    end
-    
+    pause_pingdom()
   end
 end
 
