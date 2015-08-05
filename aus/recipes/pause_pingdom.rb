@@ -4,10 +4,10 @@ ruby_block "pause_pingdom" do
     require 'net/https'
     require 'json'
 
-   PINGDOM_API_URL = 'https://api.pingdom.com'
-   PINGDOM_API_KEY = '1ihtcw3cxpue8y9ao1n3fsagi3tmkc4q'
-   PINGDOM_API_USERNAME = 'francis@pocketmath.com'
-   PINGDOM_API_PASSWORD = 'pmqrwe1423'
+    PINGDOM_API_URL = 'https://api.pingdom.com'
+    PINGDOM_API_KEY = '1ihtcw3cxpue8y9ao1n3fsagi3tmkc4q'
+    PINGDOM_API_USERNAME = 'francis@pocketmath.com'
+    PINGDOM_API_PASSWORD = 'pmqrwe1423'
 
     def get_pingdom(append_url)
       begin
