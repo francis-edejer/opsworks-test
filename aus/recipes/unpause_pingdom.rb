@@ -108,10 +108,10 @@ ruby_block "unpause_pingdom" do
     def unpause_pingdom()
       begin
         list=list_all_checks_status()
-        host=node[:opsworks][:instance][:hostname]
+        host=node[:opsworks][:instance][:hostname].dup
         count = list.count - 1
         match = 0
-        region=node[:opsworks][:instance][:region]
+        region=node[:opsworks][:instance][:region].dup
         region.chomp!
         (0..count).each do |x|
           if list[x][0] != nil && list[x][0].include?(host) && list[x][0].include?(region) then
