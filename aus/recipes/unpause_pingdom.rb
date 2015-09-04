@@ -8,9 +8,9 @@ ruby_block "unpause_pingdom" do
     PINGDOM_API_KEY = '1ihtcw3cxpue8y9ao1n3fsagi3tmkc4q'
     PINGDOM_API_USERNAME = 'francis@pocketmath.com'
     PINGDOM_API_PASSWORD = 'pocketmathpingdom'
-    BINGO_URL = "us-east-1-sic001.posumeads.com"
-    BINGO_USER = "binariesadmin"
-    BINGO_PASS = "nothing"
+    BINGO_URL = "https://localhost"
+    BINGO_USERNAME = "binariesadmin"
+    BINGO_PASSWORD = "nothing"
     
     def get_pingdom(append_url)
       begin
