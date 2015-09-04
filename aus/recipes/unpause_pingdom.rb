@@ -8,6 +8,9 @@ ruby_block "unpause_pingdom" do
     PINGDOM_API_KEY = '1ihtcw3cxpue8y9ao1n3fsagi3tmkc4q'
     PINGDOM_API_USERNAME = 'francis@pocketmath.com'
     PINGDOM_API_PASSWORD = 'pocketmathpingdom'
+    BINGO_URL = "us-east-1-sic001.posumeads.com"
+    BINGO_USER = "binariesadmin"
+    BINGO_PASS = "nothing"
     
     def get_pingdom(append_url)
       begin
@@ -105,20 +108,52 @@ ruby_block "unpause_pingdom" do
       end
     end
 
-    def unpause_pingdom()
+    def get_bingo(append_url)
+          begin
+            uri = URI.parse(BINGO_URL)
+            response = nil
+            http = Net::HTTP.new(uri.host, uri.port)
+            http.use_ssl = true
+            http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+            http.start {|https|
+              req = Net::HTTP::Get.new(append_url)
+              req.basic_auth BINGO_USERNAME, BINGO_PASSWORD
+              response = https.request(req)
+              }
+            return response
+          rescue
+            p $!
+          end
+        end
+
+   def unpause_pingdom()
       begin
         list=list_all_checks_status()
         host=node[:opsworks][:instance][:hostname].dup
         count = list.count - 1
         match = 0
         region=node[:opsworks][:instance][:region].dup
-        region.chomp!
+        region.chomp!=
         (0..count).each do |x|
           if list[x][0] != nil && list[x][0].include?(host) && list[x][0].include?(region) then
             match += 1
             if list[x][2] == "paused"
-              update=update_status(list[x][1],'unpause')
-              Chef::Log.info("PINGDOM UPDATE RESULT: #{update}")
+              tries=0
+              while tries != 60 do
+                sleep 0.7
+                tries += 1
+                append_url='/binaries/statistics?pingdom'
+                resp=get_bingo(append_url)
+                if resp.nil? and resp.body.include? "BINGO"
+                  update=update_status(list[x][1],'unpause')
+                  Chef::Log.info("PINGDOM UPDATE RESULT: #{update}") 
+                  break
+                end
+              end
+              if tries == 60
+                update=update_status(list[x][1],'unpause')
+                Chef::Log.warn("Unpausing with problems: Stats page[/binaries/statistics?pingdom] check failed - PINGDOM UPDATE RESULT: #{update}")
+              end             
             else
               Chef::Log.warn("Pingdom check already running")
             end
